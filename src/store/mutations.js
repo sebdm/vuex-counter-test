@@ -18,3 +18,7 @@ export const rollbackCounterOneStep = (state) => {
   state.counter = state.counterHistory[state.counterHistory.length - 1]
   state.counterHistory.splice(-1)
 }
+
+export const setIncrementBy = (state, {value}) => {
+  state.incrementBy = value
+}

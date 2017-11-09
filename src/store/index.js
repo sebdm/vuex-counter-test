@@ -12,7 +12,8 @@ const store = new Vuex.Store({
   mutations: mutations,
   state: {
     counter: 0,
-    counterHistory: []
+    counterHistory: [],
+    incrementBy: 1
   }
 })
 

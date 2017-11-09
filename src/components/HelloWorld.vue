@@ -16,11 +16,19 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      incrementBy: 1
+
     }
   },
   computed: {
-    ...mapGetters(['counter', 'counterHistory'])
+    ...mapGetters(['counter', 'counterHistory']),
+    incrementBy: {
+      get () {
+        return this.$store.state.incrementBy
+      },
+      set (value) {
+        return this.$store.commit('setIncrementBy', {value})
+      }
+    }
   },
   methods: {
     ...mapActions([
