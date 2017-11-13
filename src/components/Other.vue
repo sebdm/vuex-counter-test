@@ -1,23 +1,15 @@
-<template>
+<template functional>
   <div class="other">
     <p>This is some other view.</p>
-    <p>Counter: {{ counter }}</p>
-    <p>Counter history: {{ counterHistory }}</p>
+    <p>Counter: {{ props.counter }}</p>
+    <p>Counter history: {{ props.counterHistory }}</p>
   </div>
 </template>
 
 <script>
 export default {
   props: ['counter', 'counterHistory'],
-  name: 'Other',
-  data () {
-    return {}
-  },
-  computed: {
-  },
-  methods: {
-  },
-  components: {}
+  name: 'Other'
 }
 </script>
 
