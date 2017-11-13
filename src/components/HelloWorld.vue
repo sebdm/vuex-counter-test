@@ -6,38 +6,77 @@
     <button @click="decrementCounter({ amount: incrementBy })">Decrement</button>
     <button @click="rollbackCounterOneStep()">Rollback one step</button>
     <p>{{ counterHistory }}</p>
-  </div>
+    <Other :counter="counter" :counterHistory="counterHistory" />
+  </div> 
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+// import { mapState, mapActions } from 'vuex'
+import Other from '@/components/Other'
 
 export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-
+  props: {
+    id: {
+      required: true
     }
   },
+  name: 'HelloWorld',
+  data () {
+    return {}
+  },
   computed: {
-    ...mapGetters(['counter', 'counterHistory']),
+    // ...mapState(['counter', 'counterHistory']),
+    counter () {
+      return this.$store.getters[`counter${this.id}/counter`]
+    },
+    counterHistory () {
+      return this.$store.getters[`counter${this.id}/counterHistory`]
+    },
     incrementBy: {
       get () {
         return this.$store.state.incrementBy
       },
       set (value) {
-        return this.$store.commit('setIncrementBy', {value})
+        return this.$store.commit('SET_INCREMENT_BY', { value })
       }
     }
   },
   methods: {
-    ...mapActions([
-      'incrementCounter',
-      'decrementCounter',
-      'rollbackCounterOneStep'
-    ])
+    // ...mapActions([
+    //   'incrementCounter',
+    //   'decrementCounter',
+    //   'rollbackCounterOneStep'
+    // ])
+    incrementCounter (payload) {
+      this.$store.dispatch(`counter${this.id}/incrementCounter`, payload)
+    },
+    decrementCounter (payload) {
+      this.$store.dispatch(`counter${this.id}/decrementCounter`, payload)
+    },
+    rollbackCounterOneStep (payload) {
+      this.$store.dispatch(`counter${this.id}/rollbackCounterOneStep`, payload)
+    }
   },
-  components: {}
+  components: { Other },
+  watch: {
+    id () {
+      if (this.$store.state.counter.counters.find(id => id === this.id)) {
+        return
+      }
+
+      this.$store.commit('counter/ADD_COUNTER', { id: this.id })
+    }
+  },
+  created () {
+    if (this.$store.state.counter.counters.find(id => id === this.id)) {
+      return
+    }
+
+    this.$store.commit('counter/ADD_COUNTER', { id: this.id })
+  }
+  // destroyed () {
+  //   this.$store.commit('REMOVE_COUNTER', { id: this.id })
+  // }
 }
 </script>
 

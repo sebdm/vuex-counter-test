@@ -4,6 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import { sync } from 'vuex-router-sync'
+
+var unsync = sync(store, router)
 
 Vue.config.productionTip = false
 
@@ -13,5 +16,8 @@ new Vue({
   router: router,
   store: store,
   template: '<App/>',
-  components: { App: App }
+  components: { App },
+  destroyed () {
+    unsync()
+  }
 })
